@@ -1,0 +1,49 @@
+{
+    "servers":[
+        {
+            "name": "My Server-香港", 
+            "type": "阿里 轻量云", 
+            "host": "", 
+            "location": "中国-香港",
+            "username": "xianggang",
+            "password": "",
+            "region": "HK"
+        },
+        {
+            "name": "My Server-腾讯云",
+            "type": "腾讯 学生机",
+            "host": "",
+            "location": "中国-广州",
+            "username": "guangzhou",
+            "password": "",
+            "region": "CN"
+        },
+        {
+            "name": "My Server-日本1",
+            "type": "Oracle Cloud",
+            "host": "",
+            "location": "日本-东京",
+            "username": "dongjing1",
+            "password": "",
+            "region": "JP"
+        },
+        {
+            "name": "My Server-日本2",
+            "type": "Oracle Cloud",
+            "host": "",
+            "location": "日本-东京",
+            "username": "dongjing2",
+            "password": "",
+            "region": "JP"
+        },
+        {
+            "name": "My Proxy-美国",
+            "type": "Heroku",
+            "host": "",
+            "location": "美国",
+            "username": "meiguo",
+            "password": "",
+            "region": "US"
+        }
+    ]
+}
