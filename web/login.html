@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>DogSon探针-登录</title>
+
+
+  <!-- Fix chrome language detection -->
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta http-equiv="Content-Language" content="zh" />
+
+  <!-- Styles -->
+  <link href="css/core.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="/js/selectivizr-min.js"></script>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+  <div class="py-5" id="app">
+    <div class="container">
+      <div class="row">
+        <div class="ml-auto col-lg-7 text-center text-lg-left">
+          <h1>ServerStatus-DogSon探针</h1>
+          <p class="mb-0">Github:<a
+              href="https://github.com/leeli73/ServerStatus-DogSon.git">https://github.com/leeli73/ServerStatus-DogSon.git</a>
+          </p>
+        </div>
+        <div class="col-lg-4 d-flex justify-content-center align-items-center p-3">
+          <div>
+            <div class="form-group">
+              <label for="pwd">密码:</label>
+              <input type="password" class="form-control" id="pwd" v-model="password" placeholder="Enter password">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%" v-on:click="login">登录</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Scripts -->
+
+  <script src="js/jquery-1.10.2.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/vue.min.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        password: ""
+      },
+      methods: {
+        login: function () {
+          if (this.password == "") {
+            alert("请输入正确的密码!")
+            return
+          }
+          axios.post('/admin', {
+            type: 'login',
+            password: this.password
+          })
+            .then(function (data) {
+              if (data.data == "error") {
+                alert("密码错误")
+              }
+              else {
+                window.location = "/admin?id=" + data.data
+              }
+            })
+            .catch(function (error) { // 请求失败处理
+              console.log(error);
+            });
+        }
+      }
+    })
+  </script>
+</body>
+
+<footer style="text-align:center;">
+  <p>Powered by <a href="https://www.cnblogs.com/lee-li">Lee(点击访问博客)</a></p>
+  <p>Lee：leeli@live.cn</p>
+</footer>
+
+</html>

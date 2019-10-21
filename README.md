@@ -7,6 +7,17 @@ ServerStatus-DogSon
 
 目前是0.0.1测试版，多服务器探针服务已经完成，下个版本更新admin面板，支持在线添加服务器。
 
+最新更新
+====
+
+新增Admin功能，在线添加服务器，无需手动修改配置文件，下面是登录界面
+
+![](README.files/image011.jpg)
+
+下面是管理界面
+
+![](README.files/image012.jpg)
+
 使用方法
 ====
 
@@ -50,10 +61,4 @@ mojeda：https：//github.com/mojeda
 
 mojeda的ServerStatus：https : //github.com/mojeda/ServerStatus
 
-BlueVM的项目：http : //www.lowendtalk.com/discussion/comment/169690#Comment_169690## 目标
-
-去除 iconfinder 上 icon 的水印
-
-### 原理
-
-利用水印像素点和原图像素点颜色合并的原理，如果拥有加过水印的图片和水印图片，就可以反向推出原图原像素点的颜色；前提是你得拥有他的水印图片
+BlueVM的项目：http : //www.lowendtalk.com/discussion/comment/169690#Comment_169690##

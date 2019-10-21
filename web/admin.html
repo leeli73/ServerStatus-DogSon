@@ -1,0 +1,269 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>DogSon探针-服务器管理</title>
+
+
+  <!-- Fix chrome language detection -->
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta http-equiv="Content-Language" content="zh" />
+
+  <!-- Styles -->
+  <link href="css/core.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="/js/selectivizr-min.js"></script>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <div class="container" id="app">
+    <h2>DogSon探针-服务器列表 &nbsp; <a href="#" data-toggle="modal" data-target="#New" style="float:right;font-size:18px;">新增服务器</a></h2>
+    <div class="list-group" v-for="server in servers">
+        <a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#Change" v-on:click="showChange(server.name)">{{server.name}}&nbsp;(IP:{{server.host}})</a>
+    </div>
+  <!-- 模态框 -->
+  <div class="modal fade" id="Change">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- 模态框头部 -->
+        <div class="modal-header">
+          <h4 class="modal-title">修改服务器信息</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- 模态框主体 -->
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="text">Name:</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter Server Name" v-model="now_name">
+            </div>
+            <div class="form-group">
+                <label for="text">Type:</label>
+                <input type="text" class="form-control" id="type" placeholder="Enter Server Type" v-model="now_type">
+            </div>
+            <div class="form-group">
+                <label for="text">Host:</label>
+                <input type="text" class="form-control" id="host" placeholder="Enter Server Host" v-model="now_host">
+            </div>
+            <div class="form-group">
+                <label for="text">Location:</label>
+                <input type="text" class="form-control" id="location" placeholder="Enter Server Location" v-model="now_location">
+            </div>
+            <div class="form-group">
+                <label for="text">Username:</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter Server Username" v-model="now_username">
+            </div>
+            <div class="form-group">
+                <label for="text">Password:</label>
+                <input type="text" class="form-control" id="password" placeholder="Enter Server Password" v-model="now_password">
+            </div>
+            <div class="form-group">
+                <label for="text">Region:</label>
+                <input type="text" class="form-control" id="region" placeholder="Enter Server Region" v-model="now_region">
+            </div>
+        </div>
+        <!-- 模态框底部 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal" v-on:click="saveChange(now_name)">保存修改</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="deleteServer(now_name)">删除服务器</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- 模态框 -->
+  <div class="modal fade" id="New">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- 模态框头部 -->
+          <div class="modal-header">
+            <h4 class="modal-title">新增服务器</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- 模态框主体 -->
+          <div class="modal-body">
+              <div class="form-group">
+                  <label for="text">Name:</label>
+                  <input type="text" class="form-control" id="new_name" placeholder="Enter Server Name" v-model="new_name">
+              </div>
+              <div class="form-group">
+                  <label for="text">Type:</label>
+                  <input type="text" class="form-control" id="new_type" placeholder="Enter Server Type" v-model="new_type">
+              </div>
+              <div class="form-group">
+                  <label for="text">Host:</label>
+                  <input type="text" class="form-control" id="new_host" placeholder="Enter Server Host" v-model="new_host">
+              </div>
+              <div class="form-group">
+                  <label for="text">Location:</label>
+                  <input type="text" class="form-control" id="new_location" placeholder="Enter Server Location" v-model="new_location">
+              </div>
+              <div class="form-group">
+                  <label for="text">Username:</label>
+                  <input type="text" class="form-control" id="new_username" placeholder="Enter Server Username" v-model="new_username">
+              </div>
+              <div class="form-group">
+                  <label for="text">Password:</label>
+                  <input type="text" class="form-control" id="new_password" placeholder="Enter Server Password" v-model="new_password">
+              </div>
+              <div class="form-group">
+                  <label for="text">Region:</label>
+                  <input type="text" class="form-control" id="new_region" placeholder="Enter Server Region" v-model="new_region">
+              </div>
+          </div>
+          <!-- 模态框底部 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal" v-on:click="newServer(new_name)">添加</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {
+          servers: [{name:"test"}],
+          now_name:"",
+          now_type:"",
+          now_host:"",
+          now_location:"",
+          now_username:"",
+          now_password:"",
+          now_region:"",
+          new_name:"",
+          new_type:"",
+          new_host:"",
+          new_location:"",
+          new_username:"",
+          new_password:"",
+          new_region:""
+        },
+        mounted: function(){
+          this.getServers()
+        },
+        methods: {
+          getServers:function(){
+            var self = this
+            console.log("Start Get Data")
+            axios.post(window.location.href, {
+              type: 'getServer'
+            })
+              .then(function (data) {
+                console.log("Get Data")
+                if(data.data != "error")
+                {
+                  self.servers = data.data.servers
+                  console.log(data.data)
+                }
+                else
+                {
+                  alert("获取数据失败！")
+                }
+              })
+              .catch(function (error) { // 请求失败处理
+                console.log(error);
+              });
+          },
+          showChange: function(name){
+            for(var i=0;i<this.servers.length;i++)
+            {
+              if(this.servers[i].name == name)
+              {
+                this.now_name = this.servers[i].name
+                this.now_type = this.servers[i].type
+                this.now_host = this.servers[i].host
+                this.now_location = this.servers[i].location
+                this.now_username = this.servers[i].username
+                this.now_password = this.servers[i].password
+                this.now_region = this.servers[i].region
+                break
+              }
+            }
+          },
+          saveChange:function(name){
+            for(var i=0;i<this.servers.length;i++)
+            {
+              if(this.servers[i].name == name)
+              {
+                this.servers[i].name = this.now_name
+                this.servers[i].type = this.now_type
+                this.servers[i].host = this.now_host
+                this.servers[i].location = this.now_location
+                this.servers[i].username = this.now_username
+                this.servers[i].password = this.now_password
+                this.servers[i].region = this.now_region
+                break
+              }
+            }
+            this.sendServer()
+          },
+          deleteServer:function(name){
+            var temp = []
+            for(var i=0;i<this.servers.length;i++)
+            {
+              if(this.servers[i].name != name)
+              {
+                temp.push(this.servers[i])
+              }
+            }
+            this.servers = temp
+            this.sendServer()
+          },
+          newServer(name){
+            var temp = new Object()
+            temp.name = this.new_name
+            temp.type = this.new_type
+            temp.host = this.new_host
+            temp.location = this.new_location
+            temp.username = this.new_username
+            temp.password = this.new_password
+            temp.region = this.new_region
+            this.servers.push(temp)
+            this.sendServer()
+          },
+          sendServer:function(){
+            var self = this
+            axios.post(window.location.href, {
+              type: 'saveServer',
+              data: JSON.stringify(self.servers)
+            })
+              .then(function (data) {
+                if(data.data != "error")
+                {
+                  alert(data.data)
+                  console.log(data.data)
+                }
+                else
+                {
+                  alert("发送数据失败！")
+                }
+              })
+              .catch(function (error) { // 请求失败处理
+                alert("发送数据失败！")
+                console.log(error);
+              });
+          }
+        }
+      })
+    </script>
+</body>
+
+<footer style="text-align:center;">
+  <p>Powered by <a href="https://www.cnblogs.com/lee-li">Lee(点击访问博客)</a></p>
+  <p>Lee：leeli@live.cn</p>
+</footer>
+
+</html>
